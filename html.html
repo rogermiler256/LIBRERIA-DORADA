@@ -1,0 +1,54 @@
+<div class="carousel-container">
+    <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
+      <img src="imagenes/libro1.png" alt="Libro 1">
+      <div class="price-label">$10.00</div>
+    </div>
+    <div class="book position-center" data-flipbook="flipbook2.html">
+      <img src="imagenes/libro2.png" alt="Libro 2">
+      <div class="price-label">$15.00</div>
+    </div>
+    <div class="book position-right" data-flipbook="flipbook3.html">
+      <img src="imagenes/libro3.png" alt="Libro 3">
+      <div class="price-label">$20.00</div>
+    </div>
+    <div class="book position-behind" data-flipbook="flipbook4.html">
+      <img src="imagenes/libro4.png" alt="Libro 4">
+      <div class="price-label">$25.00</div>
+    </div>
+    <div class="book position-behind" data-flipbook="flipbook5.html">
+      <img src="imagenes/libro5.png" alt="Libro 5">
+      <div class="price-label">$30.00</div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button id="prevBtn" class="arrow-button"></button>
+    <button id="nextBtn" class="arrow-button"></button>
+    <button id="purchaseButton" class="purchase-button">Comprar</button>
+    <button id="subscribeButton" class="subscribe-button">Suscribirse</button>
+  </div>
+
+  <div class="modal" id="modal">
+    <iframe src=""></iframe>
+    <button class="close-button" id="closeModal">&times;</button>
+  </div>
+
+  <div class="side-share-button">
+    <button onclick="shareContent()">
+        <span class="icon">➤</span>
+    </button>
+    <span class="share-text">Compartir</span>
+</div>
+
+
+<div id="fallback-links" class="share-links" style="display: none;">
+    <a href="https://twitter.com/intent/tweet?url=URL_DEL_CONTENIDO" target="_blank" rel="noopener noreferrer">
+        Compartir en Twitter
+    </a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=URL_DEL_CONTENIDO" target="_blank" rel="noopener noreferrer">
+        Compartir en Facebook
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=URL_DEL_CONTENIDO" target="_blank" rel="noopener noreferrer">
+        Compartir en LinkedIn
+    </a>
+</div>
