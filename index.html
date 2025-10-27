@@ -224,6 +224,31 @@
         width: 95%;
         height: 70%;
       }
+      /* 🔧 Ajustes responsive para móviles */
+@media (max-width: 768px) {
+  .book-carousel {
+    transform: scale(0.85); /* reduce un poco el tamaño */
+    margin-top: 80px; /* baja todo el carrusel */
+  }
+
+  .book {
+    transform: scale(0.9);
+  }
+
+  .buttons-container {
+    margin-top: 40px; /* separa los botones de los libros */
+    flex-direction: column; /* botones uno debajo del otro si hace falta */
+    align-items: center;
+    gap: 12px;
+  }
+
+  .buttons-container button {
+    width: 85%;
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
+
     }
   </style>
 </head>
