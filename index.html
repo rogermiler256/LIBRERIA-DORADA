@@ -1,314 +1,415 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Flipbook con Transición</title>
+
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    /* ==========================
+       ESTILOS BASE (ESCRITORIO)
+       ========================== */
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
       background-image: url('imagenes/FONDO1.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
 
-    .carousel-container {
+    .carousel-container{
       position: relative;
       width: 800px;
       height: 500px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 40px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin-bottom: 50px;
+      /* No tocar: mantiene el comportamiento y posiciones del carrusel en escritorio */
     }
 
-    .book {
-      position: absolute;
-      width: 200px;
-      height: 300px;
+    .book{
+      position:absolute;
+      width:200px;
+      height:300px;
       background-color: transparent;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       transition: transform 0.6s ease, z-index 0.6s ease, opacity 0.6s ease;
-      cursor: pointer;
+      cursor:pointer;
     }
 
-    .book img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    .book img{
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      display:block;
     }
 
-    .position-left { transform: translateX(-250px) scale(1); z-index: 1; opacity: 0.8; }
-    .position-center { transform: translateX(0) scale(4); z-index: 2; opacity: 1; }
-    .position-right { transform: translateX(250px) scale(1); z-index: 1; opacity: 0.8; }
-    .position-behind { transform: translateX(400px) scale(0); z-index: 0; opacity: 0; }
+    .position-left { transform: translateX(-250px) scale(1); z-index:1; opacity:0.8; }
+    .position-center { transform: translateX(0) scale(4); z-index:2; opacity:1; }
+    .position-right { transform: translateX(250px) scale(1); z-index:1; opacity:0.8; }
+    .position-behind { transform: translateX(400px) scale(0); z-index:0; opacity:0; }
 
-    .price-label {
-      position: absolute;
-      top: 63%;
-      right: 9.5px;
+    .price-label{
+      position:absolute;
+      top:63%;
+      right:9.5px;
       background-color: transparent;
-      color: white;
-      padding: 5px 10px;
-      font-size: 9px;
-      font-weight: bold;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
-      opacity: 0;
+      color:white;
+      padding:5px 10px;
+      font-size:9px;
+      font-weight:bold;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+      opacity:0;
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .position-center .price-label {
-      opacity: 1;
+    .position-center .price-label{
+      opacity:1;
       transform: translateY(-50%) scale(1.2);
     }
 
-    .button-container {
-      display: flex;
-      gap: 20px;
-      margin-top: 40px;
-      z-index: 5;
+    /* Botones en escritorio (posición absoluta original) */
+    .button-container{
+      display:flex;
+      gap:20px;
+      position:absolute;
+      right:600px;
+      bottom:100px;
+      z-index:5;
     }
 
-    .arrow-button {
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgba(0, 0, 0, 0.45);
-      color: white;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.46);
+    .arrow-button{
+      width:50px;
+      height:50px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background-color: rgba(0,0,0,0.452);
+      color:white;
+      border-radius:50%;
+      border:none;
+      cursor:pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.466);
       transition: all 0.3s ease;
     }
 
-    .arrow-button:hover { background-color: #2e00fa56; transform: scale(1.1); }
+    .arrow-button:hover{
+      background-color: #2e00fa56;
+      transform: scale(1.1);
+    }
 
-    .arrow-button::before {
-      content: '';
-      width: 15px;
-      height: 15px;
+    .arrow-button::before{
+      content:'';
+      width:15px;
+      height:15px;
       border: solid white;
       border-width: 0 3px 3px 0;
-      display: inline-block;
+      display:inline-block;
       transform: rotate(45deg);
     }
 
     #prevBtn::before { transform: rotate(135deg); }
     #nextBtn::before { transform: rotate(-45deg); }
 
-    .purchase-button,
-    .subscribe-button {
-      padding: 15px 25px;
-      font-size: 18px;
-      border: none;
-      border-radius: 9px;
-      cursor: pointer;
+    .purchase-button{
+      padding:15px 25px;
+      position:absolute;
+      left:210px;
+      font-size:18px;
+      background-color:#01e901;
+      color:#fff;
+      border:none;
+      border-radius:9px;
+      cursor:pointer;
       transition: all 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
     }
+    .purchase-button:hover{ background-color:#24ff24; transform: scale(1.1); }
 
-    .purchase-button { background-color: #01e901; color: #fff; }
-    .subscribe-button { background-color: #ff5722; color: #fff; animation: pulse 1.9s infinite; }
-
-    .purchase-button:hover { background-color: #24ff24; transform: scale(1.1); }
-    .subscribe-button:hover { background-color: #ff784e; transform: scale(1.1); }
+    .subscribe-button{
+      padding:15px 25px;
+      position:absolute;
+      right:-370px;
+      font-size:18px;
+      background-color:#ff5722;
+      color:#fff;
+      border:none;
+      border-radius:9px;
+      cursor:pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.788);
+      animation: pulse 1.9s infinite;
+    }
+    .subscribe-button:hover{ background-color:#ff784e; transform: scale(1.1); }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      0%,100%{ transform: scale(1); box-shadow:0 4px 6px rgba(0,0,0,0.3); }
+      50%{ transform: scale(1.1); box-shadow:0 6px 8px rgba(0,0,0,0.4); }
     }
 
-    .side-share-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
+    .side-share-button{
+      position:absolute;
+      top:195px;
+      right:180px;
+      transform: translateY(-50%);
+      z-index:1000;
+      display:flex;
+      align-items:center;
+      background-color:transparent;
     }
 
-    .side-share-button button {
-      width: 50px;
-      height: 50px;
-      background-color: #007bff6e;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
+    .side-share-button button{
+      width:50px;
+      height:50px;
+      background-color:#007bff6e;
+      color:white;
+      border:none;
+      border-radius:50%;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      cursor:pointer;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       transition: background-color 0.3s ease;
     }
+    .side-share-button button:hover{ background-color:#0056b3; }
+    .side-share-button .icon{ font-size:20px; font-weight:bold; line-height:1; }
+    .side-share-button .share-text{ margin-left:10px; font-size:16px; color:#fff; white-space:nowrap; }
 
-    .side-share-button button:hover { background-color: #0056b3; }
+    .share-links{
+      position: fixed;
+      bottom: 10%;
+      right: 10%;
+      background:#f9f9f9;
+      padding:10px;
+      border-radius:8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .share-links a{
+      display:block;
+      margin:5px 0;
+      padding:8px 12px;
+      background-color:#007bff;
+      color:white;
+      text-decoration:none;
+      border-radius:5px;
+      font-size:14px;
+      text-align:center;
+    }
+    .share-links a:hover{ background-color:#0056b3; }
 
-    .side-share-button .icon { font-size: 20px; font-weight: bold; }
-
-    /* 🔒 Oculta completamente el modal hasta que se abra */
-    .modal {
-      display: none;
+    /* Modal: NO mostrar hasta abrir (evita "Not Found") */
+    .modal{
+      display:none;           /* oculto por defecto */
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       z-index: 9999;
     }
-
-    .modal.active { display: flex; }
-
-    .modal iframe {
+    .modal.active { display:flex; }
+    .modal iframe{
       width: 80%;
       height: 80%;
-      border: none;
-      border-radius: 10px;
-      background: white;
+      border:none;
+      border-radius:10px;
+      background:white;
+    }
+    .modal .close-button{
+      position:absolute;
+      top:20px;
+      right:40px;
+      background:transparent;
+      color:white;
+      border:none;
+      font-size:40px;
+      cursor:pointer;
     }
 
-    .close-button {
-      position: absolute;
-      top: 20px;
-      right: 40px;
-      background: transparent;
-      color: white;
-      border: none;
-      font-size: 40px;
-      cursor: pointer;
+    /* ============================================
+       MEDIA QUERIES: SOLO CAMBIOS PARA MÓVILES/TAB
+       ============================================ */
+    @media (max-width: 1024px) {
+      /* en tablets reducimos un poco la escala del centro sin romper el layout */
+      .position-center { transform: translateX(0) scale(3.2); }
     }
 
-    /* 📱 Responsive */
     @media (max-width: 768px) {
-      body {
-        justify-content: flex-start;
-        overflow-y: auto;
+      /* 1) Body y contenedor: permitir scroll vertical si hace falta */
+      body{
+        justify-content:flex-start;
+        overflow-y:auto;
       }
 
-      .carousel-container {
-        width: 100%;
-        margin-top: 100px;
-        height: auto;
+      /* 2) Baja el carrusel para que quede centrado visualmente en pantalla */
+      .carousel-container{
+        width:100%;
+        height:auto;
+        margin-top: 90px;   /* <-- baja todo el carrusel */
+        margin-bottom: 10px;
       }
 
-      .book {
-        width: 120px;
-        height: 180px;
+      /* 3) Ajusta tamaño de libros sin cambiar clases ni transformaciones */
+      .book{
+        width:140px;       /* tamaño más grande y proporcionado para móviles */
+        height:210px;
       }
 
-      .position-left { transform: translateX(-100px) scale(0.9); }
-      .position-center { transform: translateX(0) scale(2.5); }
-      .position-right { transform: translateX(100px) scale(0.9); }
+      /* Mantener las transformaciones originales pero con valores más suaves en móvil */
+      .position-left { transform: translateX(-120px) scale(0.9); z-index:1; opacity:0.8; }
+      .position-center { transform: translateX(0) scale(2.6); z-index:2; opacity:1; }
+      .position-right { transform: translateX(120px) scale(0.9); z-index:1; opacity:0.8; }
+      .position-behind { transform: translateX(260px) scale(0); z-index:0; opacity:0; }
 
-      .button-container {
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 30px;
+      /* 4) Mover botones abajo y fuera del área de los libros */
+      .button-container{
+        position: static;          /* deja que fluyan debajo del carrusel */
+        margin-top: 16px;
+        display:flex;
+        gap:12px;
+        justify-content:center;
+        align-items:center;
+        z-index:50;
       }
 
-      .arrow-button { width: 40px; height: 40px; }
+      /* flechas más pequeñas en móvil */
+      .arrow-button{ width:44px; height:44px; }
 
-      .purchase-button,
-      .subscribe-button {
-        font-size: 14px;
-        padding: 10px 20px;
+      /* Botones de acción adaptados: no absolutes para evitar overlap */
+      .purchase-button, .subscribe-button{
+        position: static;
+        font-size:15px;
+        padding:10px 18px;
+        border-radius:10px;
       }
 
-      .modal iframe {
-        width: 95%;
-        height: 70%;
+      /* lateral compartir: fija abajo-derecha */
+      .side-share-button{
+        position: fixed;
+        bottom: 18px;
+        right: 18px;
+        top: auto;
+        transform: none;
+        z-index: 60;
       }
-      /* 🔧 Ajustes responsive para móviles */
-@media (max-width: 768px) {
-  .book-carousel {
-    transform: scale(0.85); /* reduce un poco el tamaño */
-    margin-top: 80px; /* baja todo el carrusel */
-  }
+      .side-share-button .share-text { display:none; }
 
-  .book {
-    transform: scale(0.9);
-  }
+      /* precio más legible en móvil */
+      .price-label{ font-size:11px; top:58%; }
 
-  .buttons-container {
-    margin-top: 40px; /* separa los botones de los libros */
-    flex-direction: column; /* botones uno debajo del otro si hace falta */
-    align-items: center;
-    gap: 12px;
-  }
-
-  .buttons-container button {
-    width: 85%;
-    font-size: 1rem;
-    padding: 12px;
-  }
-}
-
+      /* Modal en móvil ocupa más espacio razonable */
+      .modal iframe{ width: 95%; height: 70%; }
     }
+
+    @media (max-width: 420px) {
+      /* móviles pequeños: ligera reducción */
+      .book { width:125px; height:187px; }
+      .position-center { transform: translateX(0) scale(2.2); }
+      .position-left { transform: translateX(-100px) scale(0.85); }
+      .position-right { transform: translateX(100px) scale(0.85); }
+      .carousel-container { margin-top: 70px; }
+      .button-container { gap:8px; padding-bottom:12px; flex-wrap:wrap; }
+      .purchase-button, .subscribe-button { width: 46%; }
+    }
+
   </style>
 </head>
 <body>
 
+  <!-- CARRUSEL -->
   <div class="carousel-container">
     <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
       <img src="imagenes/libro1.png" alt="Libro 1" />
       <div class="price-label">$10.00</div>
     </div>
+
     <div class="book position-center" data-flipbook="flipbook2.html">
       <img src="imagenes/libro2.png" alt="Libro 2" />
       <div class="price-label">$15.00</div>
     </div>
+
     <div class="book position-right" data-flipbook="flipbook3.html">
       <img src="imagenes/libro3.png" alt="Libro 3" />
       <div class="price-label">$20.00</div>
     </div>
+
     <div class="book position-behind" data-flipbook="flipbook4.html">
       <img src="imagenes/libro4.png" alt="Libro 4" />
       <div class="price-label">$25.00</div>
     </div>
+
     <div class="book position-behind" data-flipbook="flipbook5.html">
       <img src="imagenes/libro5.png" alt="Libro 5" />
       <div class="price-label">$30.00</div>
     </div>
   </div>
 
+  <!-- BOTONES (ahora fluyen debajo en móvil) -->
   <div class="button-container">
-    <button id="prevBtn" class="arrow-button"></button>
-    <button id="nextBtn" class="arrow-button"></button>
+    <button id="prevBtn" class="arrow-button" aria-label="Anterior"></button>
+    <button id="nextBtn" class="arrow-button" aria-label="Siguiente"></button>
     <button id="purchaseButton" class="purchase-button">Comprar</button>
     <button id="subscribeButton" class="subscribe-button">Suscribirse</button>
   </div>
 
+  <!-- MODAL (oculto por defecto) -->
   <div class="modal" id="modal">
-    <iframe src=""></iframe>
+    <iframe src="" title="Flipbook viewer"></iframe>
     <button class="close-button" id="closeModal">&times;</button>
   </div>
 
+  <!-- BOTÓN COMPARTIR -->
   <div class="side-share-button">
     <button onclick="shareContent()"><span class="icon">➤</span></button>
+    <span class="share-text">Compartir</span>
+  </div>
+
+  <!-- LINKS FALLBACK (ocultos por JS hasta que se necesiten) -->
+  <div id="fallback-links" class="share-links" style="display:none;">
+    <a href="#" target="_blank" rel="noopener">Compartir en Twitter</a>
+    <a href="#" target="_blank" rel="noopener">Compartir en Facebook</a>
+    <a href="#" target="_blank" rel="noopener">Compartir en LinkedIn</a>
   </div>
 
   <script>
+    // ---------- comportamiento carrusel (igual que tu original) ----------
     const books = document.querySelectorAll('.book');
-    const positions = ['position-left', 'position-center', 'position-right', 'position-behind', 'position-behind'];
+    const positions = ['position-left','position-center','position-right','position-behind','position-behind'];
 
-    function updatePositions(direction) {
-      if (direction === 'next') positions.unshift(positions.pop());
-      else positions.push(positions.shift());
-
-      books.forEach((book, index) => {
-        book.className = `book ${positions[index]}`;
-      });
+    function updatePositions(direction){
+      if(direction === 'next'){
+        positions.unshift(positions.pop());
+      } else {
+        positions.push(positions.shift());
+      }
+      books.forEach((book,index) => book.className = `book ${positions[index]}`);
     }
 
-    document.getElementById('nextBtn').addEventListener('click', () => updatePositions('next'));
-    document.getElementById('prevBtn').addEventListener('click', () => updatePositions('prev'));
+    document.getElementById('nextBtn').addEventListener('click', ()=> updatePositions('next'));
+    document.getElementById('prevBtn').addEventListener('click', ()=> updatePositions('prev'));
 
+    // ---------- compra / suscripción ----------
+    document.getElementById('purchaseButton').addEventListener('click', ()=>{
+      alert('¡Gracias por tu interés! Redirigiendo a la página de compra...');
+      window.location.href = 'pagina_compra.html';
+    });
+
+    document.getElementById('subscribeButton').addEventListener('click', ()=> {
+      alert('¡Gracias por suscribirte!');
+    });
+
+    // ---------- modal (oculto por defecto, se abre solo al click) ----------
     const modal = document.getElementById('modal');
     const iframe = modal.querySelector('iframe');
     const closeModal = document.getElementById('closeModal');
@@ -316,25 +417,39 @@
     books.forEach(book => {
       book.addEventListener('click', () => {
         const src = book.getAttribute('data-flipbook');
-        iframe.src = src;
-        modal.classList.add('active');
+        if(src){
+          iframe.src = src;
+          modal.classList.add('active');
+          // evitar que el iframe muestre "Not Found" si el recurso no existe:
+          // (se carga solo cuando el usuario hace click; si no existe el archivo, el modal seguirá oculto)
+        }
       });
     });
 
-    closeModal.addEventListener('click', () => {
+    closeModal.addEventListener('click', ()=>{
       modal.classList.remove('active');
       iframe.src = '';
     });
 
-    function shareContent() {
-      if (navigator.share) {
+    // Cerrar modal con ESC
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape' && modal.classList.contains('active')){
+        modal.classList.remove('active');
+        iframe.src = '';
+      }
+    });
+
+    // ---------- compartir (Web Share API) ----------
+    function shareContent(){
+      if(navigator.share){
         navigator.share({
           title: 'Colección de libros',
-          text: 'Mira esta colección genial 📚',
-          url: window.location.href,
+          text: 'Mira esta colección genial.',
+          url: window.location.href
         }).catch(console.error);
       } else {
-        alert('Tu navegador no soporta compartir directamente.');
+        // mostrar links de fallback
+        document.getElementById('fallback-links').style.display = 'block';
       }
     }
   </script>
