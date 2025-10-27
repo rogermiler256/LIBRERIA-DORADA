@@ -1,270 +1,311 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flipbook con Transición</title>
 
   <style>
-    /* ========================== */
-    /* ESTILOS BASE (ESCRITORIO) */
-    /* ========================== */
-    body{
-      margin:0;
-      height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       background-image: url('imagenes/FONDO1.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       overflow: hidden;
-      font-family: Arial, sans-serif;
     }
 
-    .carousel-container{
+    .carousel-container {
       position: relative;
       width: 800px;
       height: 500px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 50px;
     }
 
-    .book{
-      position:absolute;
-      width:200px;
-      height:300px;
+    .book {
+      position: absolute;
+      width: 200px;
+      height: 300px;
       background-color: transparent;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: transform 0.6s ease, z-index 0.6s ease, opacity 0.6s ease;
-      cursor:pointer;
+      cursor: pointer;
     }
 
-    .book img{
-      max-width:100%;
-      max-height:100%;
-      object-fit:contain;
-      display:block;
+    .book img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
-    .position-left { transform: translateX(-250px) scale(1); z-index:1; opacity:0.8; }
-    .position-center { transform: translateX(0) scale(4); z-index:2; opacity:1; }
-    .position-right { transform: translateX(250px) scale(1); z-index:1; opacity:0.8; }
-    .position-behind { transform: translateX(400px) scale(0); z-index:0; opacity:0; }
+    .position-left {
+      transform: translateX(-250px) scale(1);
+      z-index: 1;
+      opacity: 0.8;
+    }
 
-    .price-label{
-      position:absolute;
-      top:63%;
-      right:9.5px;
+    .position-center {
+      transform: translateX(0) scale(4);
+      z-index: 2;
+      opacity: 1;
+    }
+
+    .position-right {
+      transform: translateX(250px) scale(1);
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    .position-behind {
+      transform: translateX(400px) scale(0);
+      z-index: 0;
+      opacity: 0;
+    }
+
+    .price-label {
+      position: absolute;
+      top: 63%;
+      right: 9.5px;
       background-color: transparent;
-      color:white;
-      padding:5px 10px;
-      font-size:9px;
-      font-weight:bold;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-      opacity:0;
+      color: white;
+      padding: 5px 10px;
+      font-size: 9px;
+      font-weight: bold;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+      opacity: 0;
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .position-center .price-label{
-      opacity:1;
+    .position-center .price-label {
+      opacity: 1;
       transform: translateY(-50%) scale(1.2);
     }
 
-    .button-container{
-      display:flex;
-      gap:20px;
-      position:absolute;
-      bottom:-80px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:5;
+    .button-container {
+      display: flex;
+      gap: 20px;
+      position: absolute;
+      right: 600px;
+      bottom: 100px;
+      z-index: 5;
     }
 
-    .arrow-button{
-      width:50px;
-      height:50px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background-color: rgba(0,0,0,0.45);
-      color:white;
-      border-radius:50%;
-      border:none;
-      cursor:pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+    .arrow-button {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.45);
+      color: white;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.46);
       transition: all 0.3s ease;
     }
 
-    .arrow-button:hover{
+    .arrow-button:hover {
       background-color: #2e00fa56;
       transform: scale(1.1);
     }
 
-    .arrow-button::before{
-      content:'';
-      width:15px;
-      height:15px;
+    .arrow-button::before {
+      content: '';
+      width: 15px;
+      height: 15px;
       border: solid white;
       border-width: 0 3px 3px 0;
-      display:inline-block;
+      display: inline-block;
       transform: rotate(45deg);
     }
 
-    #prevBtn::before { transform: rotate(135deg); }
-    #nextBtn::before { transform: rotate(-45deg); }
-
-    .purchase-button{
-      padding:15px 25px;
-      font-size:18px;
-      background-color:#01e901;
-      color:#fff;
-      border:none;
-      border-radius:9px;
-      cursor:pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    #prevBtn::before {
+      transform: rotate(135deg);
     }
-    .purchase-button:hover{ background-color:#24ff24; transform: scale(1.1); }
 
-    .subscribe-button{
-      padding:15px 25px;
-      font-size:18px;
-      background-color:#ff5722;
-      color:#fff;
-      border:none;
-      border-radius:9px;
-      cursor:pointer;
+    #nextBtn::before {
+      transform: rotate(-45deg);
+    }
+
+    .purchase-button {
+      padding: 15px 25px;
+      position: absolute;
+      left: 210px;
+      font-size: 18px;
+      background-color: #01e901;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.788);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .purchase-button:hover {
+      background-color: #24ff24;
+      transform: scale(1.1);
+    }
+
+    .subscribe-button {
+      padding: 15px 25px;
+      position: absolute;
+      right: -370px;
+      font-size: 18px;
+      background-color: #ff5722;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.788);
       animation: pulse 1.9s infinite;
     }
-    .subscribe-button:hover{ background-color:#ff784e; transform: scale(1.1); }
+
+    .subscribe-button:hover {
+      background-color: #ff784e;
+      transform: scale(1.1);
+    }
 
     @keyframes pulse {
-      0%,100%{ transform: scale(1); box-shadow:0 4px 6px rgba(0,0,0,0.3); }
-      50%{ transform: scale(1.1); box-shadow:0 6px 8px rgba(0,0,0,0.4); }
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+      }
     }
 
-    .side-share-button{
-      position:absolute;
-      top:195px;
-      right:180px;
-      transform: translateY(-50%);
-      z-index:1000;
-      display:flex;
-      align-items:center;
-      background-color:transparent;
+    /* 📱 Ajustes responsive para móviles */
+    @media (max-width: 768px) {
+      .carousel-container {
+        width: 100%;
+        height: 320px;
+        margin-bottom: 120px;
+      }
+
+      .book {
+        width: 100px;
+        height: 150px;
+      }
+
+      .position-left {
+        transform: translateX(-100px) scale(1);
+      }
+
+      .position-center {
+        transform: translateX(0) scale(2.2);
+      }
+
+      .position-right {
+        transform: translateX(100px) scale(1);
+      }
+
+      .button-container {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .purchase-button,
+      .subscribe-button {
+        position: static;
+        width: 80%;
+        max-width: 300px;
+        font-size: 16px;
+      }
+
+      .arrow-button {
+        width: 40px;
+        height: 40px;
+      }
     }
 
-    .side-share-button button{
-      width:50px;
-      height:50px;
-      background-color:#007bff6e;
-      color:white;
-      border:none;
-      border-radius:50%;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      cursor:pointer;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      transition: background-color 0.3s ease;
-    }
-    .side-share-button button:hover{ background-color:#0056b3; }
-    .side-share-button .icon{ font-size:20px; font-weight:bold; line-height:1; }
-    .side-share-button .share-text{ margin-left:10px; font-size:16px; color:#fff; white-space:nowrap; }
+    /* 📱 Extra pequeño (teléfonos muy chicos) */
+    @media (max-width: 480px) {
+      .carousel-container {
+        height: 250px;
+      }
 
-    .modal{
-      display:none;
+      .book {
+        width: 90px;
+        height: 130px;
+      }
+
+      .position-center {
+        transform: translateX(0) scale(2);
+      }
+
+      .button-container {
+        gap: 10px;
+        bottom: 30px;
+      }
+    }
+
+    /* Modal y compartir */
+    .modal {
       position: fixed;
-      inset: 0;
-      background-color: rgba(0,0,0,0.8);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+      z-index: 10;
     }
-    .modal.active { display:flex; }
-    .modal iframe{
+
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .modal iframe {
       width: 80%;
       height: 80%;
-      border:none;
-      border-radius:10px;
-      background:white;
-    }
-    .modal .close-button{
-      position:absolute;
-      top:20px;
-      right:40px;
-      background:transparent;
-      color:white;
-      border:none;
-      font-size:40px;
-      cursor:pointer;
+      border: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
     }
 
-    /* ========================== */
-    /*     MEDIA QUERIES         */
-    /* ========================== */
-
-    @media (max-width: 768px) {
-      body{
-        overflow-y:auto;
-        justify-content:flex-start;
-      }
-      .carousel-container{
-        width:100%;
-        height:auto;
-        margin-top:70px;
-        margin-bottom:40px;
-      }
-      .book{
-        width:140px;
-        height:210px;
-      }
-      .position-left { transform: translateX(-120px) scale(0.9); }
-      .position-center { transform: translateX(0) scale(2.6); }
-      .position-right { transform: translateX(120px) scale(0.9); }
-
-      /* 🔽 Botones bajan y se centran */
-      .button-container{
-        position:static;
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:12px;
-        margin-top:10px;
-      }
-
-      .arrow-button{ width:44px; height:44px; }
-      .purchase-button, .subscribe-button{
-        font-size:15px;
-        padding:10px 18px;
-      }
-
-      .side-share-button{
-        position:fixed;
-        bottom:18px;
-        right:18px;
-        top:auto;
-        transform:none;
-      }
-      .side-share-button .share-text{ display:none; }
-
-      .price-label{ font-size:11px; top:58%; }
-      .modal iframe{ width:95%; height:70%; }
+    .modal .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #06e72c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    @media (max-width: 420px) {
-      .book { width:120px; height:180px; }
-      .position-center { transform: translateX(0) scale(2.2); }
-      .button-container{ gap:8px; flex-wrap:wrap; }
-      .purchase-button, .subscribe-button{ width:46%; }
+    .modal .close-button:hover {
+      background-color: #13e600;
     }
   </style>
 </head>
@@ -273,32 +314,19 @@
 
   <div class="carousel-container">
     <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
-      <img src="imagenes/libro1.png" alt="Libro 1" />
+      <img src="imagenes/libro1.png" alt="Libro 1">
       <div class="price-label">$10.00</div>
     </div>
-
     <div class="book position-center" data-flipbook="flipbook2.html">
-      <img src="imagenes/libro2.png" alt="Libro 2" />
+      <img src="imagenes/libro2.png" alt="Libro 2">
       <div class="price-label">$15.00</div>
     </div>
-
     <div class="book position-right" data-flipbook="flipbook3.html">
-      <img src="imagenes/libro3.png" alt="Libro 3" />
+      <img src="imagenes/libro3.png" alt="Libro 3">
       <div class="price-label">$20.00</div>
-    </div>
-
-    <div class="book position-behind" data-flipbook="flipbook4.html">
-      <img src="imagenes/libro4.png" alt="Libro 4" />
-      <div class="price-label">$25.00</div>
-    </div>
-
-    <div class="book position-behind" data-flipbook="flipbook5.html">
-      <img src="imagenes/libro5.png" alt="Libro 5" />
-      <div class="price-label">$30.00</div>
     </div>
   </div>
 
-  <!-- Botones centrados debajo del carrusel -->
   <div class="button-container">
     <button id="prevBtn" class="arrow-button"></button>
     <button id="nextBtn" class="arrow-button"></button>
@@ -306,48 +334,49 @@
     <button id="subscribeButton" class="subscribe-button">Suscribirse</button>
   </div>
 
-  <!-- Modal -->
   <div class="modal" id="modal">
     <iframe src=""></iframe>
     <button class="close-button" id="closeModal">&times;</button>
   </div>
 
-  <!-- Botón compartir -->
-  <div class="side-share-button">
-    <button onclick="shareContent()"><span class="icon">➤</span></button>
-    <span class="share-text">Compartir</span>
-  </div>
-
   <script>
     const books = document.querySelectorAll('.book');
-    const positions = ['position-left','position-center','position-right','position-behind','position-behind'];
+    const positions = ['position-left', 'position-center', 'position-right', 'position-behind', 'position-behind'];
 
-    function updatePositions(dir){
-      if(dir==='next'){ positions.unshift(positions.pop()); }
-      else{ positions.push(positions.shift()); }
-      books.forEach((b,i)=>b.className=`book ${positions[i]}`);
+    function updatePositions(direction) {
+      if (direction === 'next') positions.unshift(positions.pop());
+      else positions.push(positions.shift());
+
+      books.forEach((book, index) => book.className = `book ${positions[index]}`);
     }
 
-    document.getElementById('nextBtn').onclick=()=>updatePositions('next');
-    document.getElementById('prevBtn').onclick=()=>updatePositions('prev');
+    document.getElementById('nextBtn').addEventListener('click', () => updatePositions('next'));
+    document.getElementById('prevBtn').addEventListener('click', () => updatePositions('prev'));
 
-    const modal=document.getElementById('modal');
-    const iframe=modal.querySelector('iframe');
-    const close=document.getElementById('closeModal');
-    books.forEach(b=>{
-      b.onclick=()=>{
-        const src=b.dataset.flipbook;
-        if(src){ iframe.src=src; modal.classList.add('active'); }
-      };
+    document.getElementById('purchaseButton').addEventListener('click', () => {
+      window.location.href = 'pagina_compra.html';
     });
-    close.onclick=()=>{ modal.classList.remove('active'); iframe.src=''; };
-    document.onkeydown=e=>{ if(e.key==='Escape'){ modal.classList.remove('active'); iframe.src=''; } };
 
-    function shareContent(){
-      if(navigator.share){
-        navigator.share({title:'Colección de libros',text:'Mira esta colección genial.',url:location.href});
-      } else alert("Tu navegador no soporta compartir");
-    }
+    document.getElementById('subscribeButton').addEventListener('click', () => {
+      alert('¡Gracias por suscribirte!');
+    });
+
+    const modal = document.getElementById('modal');
+    const iframe = modal.querySelector('iframe');
+    const closeModal = document.getElementById('closeModal');
+
+    books.forEach(book => {
+      book.addEventListener('click', () => {
+        const flipbookSrc = book.getAttribute('data-flipbook');
+        iframe.src = flipbookSrc;
+        modal.classList.add('active');
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      iframe.src = '';
+    });
   </script>
 </body>
 </html>
