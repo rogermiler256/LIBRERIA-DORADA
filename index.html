@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flipbook con Transición</title>
-
   <style>
+    /* --- ESTILOS BASE --- */
     body {
       margin: 0;
       height: 100vh;
@@ -39,7 +39,7 @@
       justify-content: center;
       align-items: center;
       transition: transform 0.6s ease, z-index 0.6s ease, opacity 0.6s ease;
-      cursor: pointer;
+      cursor: pointer;  
     }
 
     .book img {
@@ -95,9 +95,11 @@
       display: flex;
       gap: 20px;
       position: absolute;
-      right: 600px;
-      bottom: 100px;
+      bottom: -50px;
+      justify-content: center;
+      align-items: center;
       z-index: 5;
+      flex-wrap: wrap;
     }
 
     .arrow-button {
@@ -106,12 +108,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgba(0, 0, 0, 0.45);
+      background-color: rgba(0, 0, 0, 0.452);
       color: white;
       border-radius: 50%;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.46);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.466);
       transition: all 0.3s ease;
     }
 
@@ -140,8 +142,6 @@
 
     .purchase-button {
       padding: 15px 25px;
-      position: absolute;
-      left: 210px;
       font-size: 18px;
       background-color: #01e901;
       color: #fff;
@@ -159,8 +159,6 @@
 
     .subscribe-button {
       padding: 15px 25px;
-      position: absolute;
-      right: -370px;
       font-size: 18px;
       background-color: #ff5722;
       color: #fff;
@@ -188,21 +186,27 @@
       }
     }
 
-    /* 📱 Ajustes responsive para móviles */
+    /* --- RESPONSIVE PARA CELULARES --- */
     @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+        justify-content: flex-start;
+        padding-top: 50px;
+      }
+
       .carousel-container {
-        width: 100%;
-        height: 320px;
-        margin-bottom: 120px;
+        width: 90%;
+        height: 300px;
+        margin-bottom: 100px;
       }
 
       .book {
-        width: 100px;
-        height: 150px;
+        width: 120px;
+        height: 180px;
       }
 
       .position-left {
-        transform: translateX(-100px) scale(1);
+        transform: translateX(-120px) scale(1);
       }
 
       .position-center {
@@ -210,108 +214,33 @@
       }
 
       .position-right {
-        transform: translateX(100px) scale(1);
+        transform: translateX(120px) scale(1);
       }
 
       .button-container {
-        position: fixed;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .purchase-button,
-      .subscribe-button {
         position: static;
-        width: 80%;
-        max-width: 300px;
-        font-size: 16px;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        gap: 15px;
+        margin-top: 20px;
       }
 
       .arrow-button {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
+      }
+
+      .purchase-button, .subscribe-button {
+        padding: 10px 15px;
+        font-size: 16px;
       }
     }
 
-    /* 📱 Extra pequeño (teléfonos muy chicos) */
-    @media (max-width: 480px) {
-      .carousel-container {
-        height: 250px;
-      }
-
-      .book {
-        width: 90px;
-        height: 130px;
-      }
-
-      .position-center {
-        transform: translateX(0) scale(2);
-      }
-
-      .button-container {
-        gap: 10px;
-        bottom: 30px;
-      }
-    }
-
-    /* Modal y compartir */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      visibility: hidden;
-      opacity: 0;
-      transform: scale(0.9);
-      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-      z-index: 10;
-    }
-
-    .modal.active {
-      visibility: visible;
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .modal iframe {
-      width: 80%;
-      height: 80%;
-      border: none;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-    }
-
-    .modal .close-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #06e72c;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .modal .close-button:hover {
-      background-color: #13e600;
-    }
   </style>
 </head>
 
 <body>
-
   <div class="carousel-container">
     <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
       <img src="imagenes/libro1.png" alt="Libro 1">
@@ -324,6 +253,14 @@
     <div class="book position-right" data-flipbook="flipbook3.html">
       <img src="imagenes/libro3.png" alt="Libro 3">
       <div class="price-label">$20.00</div>
+    </div>
+    <div class="book position-behind" data-flipbook="flipbook4.html">
+      <img src="imagenes/libro4.png" alt="Libro 4">
+      <div class="price-label">$25.00</div>
+    </div>
+    <div class="book position-behind" data-flipbook="flipbook5.html">
+      <img src="imagenes/libro5.png" alt="Libro 5">
+      <div class="price-label">$30.00</div>
     </div>
   </div>
 
@@ -340,26 +277,32 @@
   </div>
 
   <script>
+    document.getElementById('subscribeButton').addEventListener('click', () => {
+      alert('¡Gracias por suscribirte!');
+    });
+
     const books = document.querySelectorAll('.book');
     const positions = ['position-left', 'position-center', 'position-right', 'position-behind', 'position-behind'];
 
     function updatePositions(direction) {
-      if (direction === 'next') positions.unshift(positions.pop());
-      else positions.push(positions.shift());
+      if (direction === 'next') {
+        positions.unshift(positions.pop());
+      } else {
+        positions.push(positions.shift());
+      }
 
-      books.forEach((book, index) => book.className = `book ${positions[index]}`);
+      books.forEach((book, index) => {
+        book.className = `book ${positions[index]}`;
+      });
     }
 
-    document.getElementById('nextBtn').addEventListener('click', () => updatePositions('next'));
-    document.getElementById('prevBtn').addEventListener('click', () => updatePositions('prev'));
-
     document.getElementById('purchaseButton').addEventListener('click', () => {
+      alert('¡Gracias por tu interés! Redirigiendo a la página de compra...');
       window.location.href = 'pagina_compra.html';
     });
 
-    document.getElementById('subscribeButton').addEventListener('click', () => {
-      alert('¡Gracias por suscribirte!');
-    });
+    document.getElementById('nextBtn').addEventListener('click', () => updatePositions('next'));
+    document.getElementById('prevBtn').addEventListener('click', () => updatePositions('prev'));
 
     const modal = document.getElementById('modal');
     const iframe = modal.querySelector('iframe');
