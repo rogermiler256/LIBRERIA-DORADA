@@ -17,7 +17,6 @@
       background-position: center;
       background-repeat: no-repeat;
       overflow: hidden;
-      font-family: Arial, sans-serif;
     }
 
     .carousel-container {
@@ -228,91 +227,15 @@
       margin-left: 10px;
       font-size: 16px;
       color: #ffffff;
+      font-family: Arial, sans-serif;
       white-space: nowrap;
     }
 
-    .share-links {
-      position: fixed;
-      bottom: 10%;
-      right: 10%;
-      background: #f9f9f9;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .share-links a {
-      display: block;
-      margin: 5px 0;
-      padding: 8px 12px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 14px;
-      text-align: center;
-      transition: background-color 0.3s ease;
-    }
-
-    .share-links a:hover {
-      background-color: #0056b3;
-    }
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      visibility: hidden;
-      opacity: 0;
-      transform: scale(0.9);
-      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-      z-index: 10;
-    }
-
-    .modal.active {
-      visibility: visible;
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .modal iframe {
-      width: 80%;
-      height: 80%;
-      border: none;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-    }
-
-    .modal .close-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #06e72c;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .modal .close-button:hover {
-      background-color: #13e600;
-    }
-
-    /* ✅ RESPONSIVE DESIGN */
+    /* 📱 Responsive: ajustes para pantallas pequeñas */
     @media (max-width: 768px) {
       body {
-        background-size: cover;
-        background-position: center;
+        justify-content: flex-start;
+        align-items: center;
         overflow-y: auto;
       }
 
@@ -320,31 +243,44 @@
         width: 100%;
         height: auto;
         flex-direction: column;
-        margin-bottom: 20px;
+        margin-top: 40px;
       }
 
       .book {
-        position: relative;
         width: 120px;
         height: 180px;
-        margin: 10px;
-        transform: none !important;
-        opacity: 1 !important;
+      }
+
+      .position-left {
+        transform: translateX(-100px) scale(0.9);
+      }
+
+      .position-center {
+        transform: translateX(0) scale(2.5);
+      }
+
+      .position-right {
+        transform: translateX(100px) scale(0.9);
       }
 
       .button-container {
         position: static;
-        flex-direction: column;
-        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 10px;
-        margin-top: 20px;
+        margin-top: 30px;
+      }
+
+      .arrow-button {
+        width: 40px;
+        height: 40px;
       }
 
       .purchase-button,
       .subscribe-button {
         position: static;
-        width: 80%;
-        font-size: 16px;
+        font-size: 14px;
+        padding: 10px 20px;
       }
 
       .side-share-button {
@@ -354,34 +290,44 @@
         top: auto;
         transform: none;
       }
+
+      .side-share-button .share-text {
+        display: none;
+      }
+
+      .modal iframe {
+        width: 95%;
+        height: 70%;
+      }
     }
   </style>
 </head>
-
 <body>
+  <!-- Carrusel -->
   <div class="carousel-container">
     <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
-      <img src="imagenes/libro1.png" alt="Libro 1">
+      <img src="imagenes/libro1.png" alt="Libro 1" />
       <div class="price-label">$10.00</div>
     </div>
     <div class="book position-center" data-flipbook="flipbook2.html">
-      <img src="imagenes/libro2.png" alt="Libro 2">
+      <img src="imagenes/libro2.png" alt="Libro 2" />
       <div class="price-label">$15.00</div>
     </div>
     <div class="book position-right" data-flipbook="flipbook3.html">
-      <img src="imagenes/libro3.png" alt="Libro 3">
+      <img src="imagenes/libro3.png" alt="Libro 3" />
       <div class="price-label">$20.00</div>
     </div>
     <div class="book position-behind" data-flipbook="flipbook4.html">
-      <img src="imagenes/libro4.png" alt="Libro 4">
+      <img src="imagenes/libro4.png" alt="Libro 4" />
       <div class="price-label">$25.00</div>
     </div>
     <div class="book position-behind" data-flipbook="flipbook5.html">
-      <img src="imagenes/libro5.png" alt="Libro 5">
+      <img src="imagenes/libro5.png" alt="Libro 5" />
       <div class="price-label">$30.00</div>
     </div>
   </div>
 
+  <!-- Botones -->
   <div class="button-container">
     <button id="prevBtn" class="arrow-button"></button>
     <button id="nextBtn" class="arrow-button"></button>
@@ -389,20 +335,25 @@
     <button id="subscribeButton" class="subscribe-button">Suscribirse</button>
   </div>
 
+  <!-- Modal -->
   <div class="modal" id="modal">
     <iframe src=""></iframe>
     <button class="close-button" id="closeModal">&times;</button>
   </div>
 
+  <!-- Botón lateral compartir -->
   <div class="side-share-button">
-    <button onclick="shareContent()"><span class="icon">➤</span></button>
+    <button onclick="shareContent()">
+      <span class="icon">➤</span>
+    </button>
     <span class="share-text">Compartir</span>
   </div>
 
+  <!-- Links de fallback -->
   <div id="fallback-links" class="share-links" style="display: none;">
-    <a href="https://twitter.com/intent/tweet?url=URL_DEL_CONTENIDO" target="_blank" rel="noopener noreferrer">Compartir en Twitter</a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=URL_DEL_CONTENIDO" target="_blank" rel="noopener noreferrer">Compartir en Facebook</a>
-    <a href="https://www.linkedin.com/shareArticle?url=URL_DEL_CONTENIDO" target="_blank" rel="noopener noreferrer">Compartir en LinkedIn</a>
+    <a href="#">Compartir en Twitter</a>
+    <a href="#">Compartir en Facebook</a>
+    <a href="#">Compartir en LinkedIn</a>
   </div>
 
   <script>
@@ -419,6 +370,7 @@
       } else {
         positions.push(positions.shift());
       }
+
       books.forEach((book, index) => {
         book.className = `book ${positions[index]}`;
       });
@@ -451,13 +403,13 @@
 
     function shareContent() {
       if (navigator.share) {
-        navigator.share({
-          title: 'Título del contenido',
-          text: 'Descripción breve de lo que compartes.',
-          url: window.location.href
-        })
-        .then(() => console.log('¡Contenido compartido con éxito!'))
-        .catch(error => console.error('Error al compartir:', error));
+        navigator
+          .share({
+            title: 'Título del contenido',
+            text: 'Descripción breve de lo que compartes.',
+            url: window.location.href,
+          })
+          .catch(console.error);
       } else {
         document.getElementById('fallback-links').style.display = 'block';
       }
