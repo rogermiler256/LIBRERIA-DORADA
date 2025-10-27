@@ -26,7 +26,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 50px;
+      margin-top: 40px;
     }
 
     .book {
@@ -47,29 +47,10 @@
       object-fit: contain;
     }
 
-    .position-left {
-      transform: translateX(-250px) scale(1);
-      z-index: 1;
-      opacity: 0.8;
-    }
-
-    .position-center {
-      transform: translateX(0) scale(4);
-      z-index: 2;
-      opacity: 1;
-    }
-
-    .position-right {
-      transform: translateX(250px) scale(1);
-      z-index: 1;
-      opacity: 0.8;
-    }
-
-    .position-behind {
-      transform: translateX(400px) scale(0);
-      z-index: 0;
-      opacity: 0;
-    }
+    .position-left { transform: translateX(-250px) scale(1); z-index: 1; opacity: 0.8; }
+    .position-center { transform: translateX(0) scale(4); z-index: 2; opacity: 1; }
+    .position-right { transform: translateX(250px) scale(1); z-index: 1; opacity: 0.8; }
+    .position-behind { transform: translateX(400px) scale(0); z-index: 0; opacity: 0; }
 
     .price-label {
       position: absolute;
@@ -93,9 +74,7 @@
     .button-container {
       display: flex;
       gap: 20px;
-      position: absolute;
-      right: 600px;
-      bottom: 100px;
+      margin-top: 40px;
       z-index: 5;
     }
 
@@ -105,19 +84,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgba(0, 0, 0, 0.452);
+      background-color: rgba(0, 0, 0, 0.45);
       color: white;
       border-radius: 50%;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.466);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.46);
       transition: all 0.3s ease;
     }
 
-    .arrow-button:hover {
-      background-color: #2e00fa56;
-      transform: scale(1.1);
-    }
+    .arrow-button:hover { background-color: #2e00fa56; transform: scale(1.1); }
 
     .arrow-button::before {
       content: '';
@@ -129,21 +105,13 @@
       transform: rotate(45deg);
     }
 
-    #prevBtn::before {
-      transform: rotate(135deg);
-    }
+    #prevBtn::before { transform: rotate(135deg); }
+    #nextBtn::before { transform: rotate(-45deg); }
 
-    #nextBtn::before {
-      transform: rotate(-45deg);
-    }
-
-    .purchase-button {
+    .purchase-button,
+    .subscribe-button {
       padding: 15px 25px;
-      position: absolute;
-      left: 210px;
       font-size: 18px;
-      background-color: #01e901;
-      color: #fff;
       border: none;
       border-radius: 9px;
       cursor: pointer;
@@ -151,51 +119,22 @@
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     }
 
-    .purchase-button:hover {
-      background-color: #24ff24;
-      transform: scale(1.1);
-    }
+    .purchase-button { background-color: #01e901; color: #fff; }
+    .subscribe-button { background-color: #ff5722; color: #fff; animation: pulse 1.9s infinite; }
 
-    .subscribe-button {
-      padding: 15px 25px;
-      position: absolute;
-      right: -370px;
-      font-size: 18px;
-      background-color: #ff5722;
-      color: #fff;
-      border: none;
-      border-radius: 9px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.788);
-      animation: pulse 1.9s infinite;
-    }
-
-    .subscribe-button:hover {
-      background-color: #ff784e;
-      transform: scale(1.1);
-    }
+    .purchase-button:hover { background-color: #24ff24; transform: scale(1.1); }
+    .subscribe-button:hover { background-color: #ff784e; transform: scale(1.1); }
 
     @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      }
-      50% {
-        transform: scale(1.1);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-      }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
 
     .side-share-button {
-      position: absolute;
-      top: 195px;
-      right: 180px;
-      transform: translateY(-50%);
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       z-index: 1000;
-      display: flex;
-      align-items: center;
-      background-color: transparent;
     }
 
     .side-share-button button {
@@ -205,45 +144,57 @@
       color: white;
       border: none;
       border-radius: 50%;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
       cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       transition: background-color 0.3s ease;
     }
 
-    .side-share-button button:hover {
-      background-color: #0056b3;
+    .side-share-button button:hover { background-color: #0056b3; }
+
+    .side-share-button .icon { font-size: 20px; font-weight: bold; }
+
+    /* 🔒 Oculta completamente el modal hasta que se abra */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.75);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
     }
 
-    .side-share-button .icon {
-      font-size: 20px;
-      font-weight: bold;
-      line-height: 1;
+    .modal.active { display: flex; }
+
+    .modal iframe {
+      width: 80%;
+      height: 80%;
+      border: none;
+      border-radius: 10px;
+      background: white;
     }
 
-    .side-share-button .share-text {
-      margin-left: 10px;
-      font-size: 16px;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      white-space: nowrap;
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      background: transparent;
+      color: white;
+      border: none;
+      font-size: 40px;
+      cursor: pointer;
     }
 
-    /* 📱 Responsive: ajustes para pantallas pequeñas */
+    /* 📱 Responsive */
     @media (max-width: 768px) {
       body {
         justify-content: flex-start;
-        align-items: center;
         overflow-y: auto;
       }
 
       .carousel-container {
         width: 100%;
+        margin-top: 100px;
         height: auto;
-        flex-direction: column;
-        margin-top: 40px;
       }
 
       .book {
@@ -251,48 +202,22 @@
         height: 180px;
       }
 
-      .position-left {
-        transform: translateX(-100px) scale(0.9);
-      }
-
-      .position-center {
-        transform: translateX(0) scale(2.5);
-      }
-
-      .position-right {
-        transform: translateX(100px) scale(0.9);
-      }
+      .position-left { transform: translateX(-100px) scale(0.9); }
+      .position-center { transform: translateX(0) scale(2.5); }
+      .position-right { transform: translateX(100px) scale(0.9); }
 
       .button-container {
-        position: static;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px;
         margin-top: 30px;
       }
 
-      .arrow-button {
-        width: 40px;
-        height: 40px;
-      }
+      .arrow-button { width: 40px; height: 40px; }
 
       .purchase-button,
       .subscribe-button {
-        position: static;
         font-size: 14px;
         padding: 10px 20px;
-      }
-
-      .side-share-button {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        top: auto;
-        transform: none;
-      }
-
-      .side-share-button .share-text {
-        display: none;
       }
 
       .modal iframe {
@@ -303,7 +228,7 @@
   </style>
 </head>
 <body>
-  <!-- Carrusel -->
+
   <div class="carousel-container">
     <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
       <img src="imagenes/libro1.png" alt="Libro 1" />
@@ -327,7 +252,6 @@
     </div>
   </div>
 
-  <!-- Botones -->
   <div class="button-container">
     <button id="prevBtn" class="arrow-button"></button>
     <button id="nextBtn" class="arrow-button"></button>
@@ -335,51 +259,27 @@
     <button id="subscribeButton" class="subscribe-button">Suscribirse</button>
   </div>
 
-  <!-- Modal -->
   <div class="modal" id="modal">
     <iframe src=""></iframe>
     <button class="close-button" id="closeModal">&times;</button>
   </div>
 
-  <!-- Botón lateral compartir -->
   <div class="side-share-button">
-    <button onclick="shareContent()">
-      <span class="icon">➤</span>
-    </button>
-    <span class="share-text">Compartir</span>
-  </div>
-
-  <!-- Links de fallback -->
-  <div id="fallback-links" class="share-links" style="display: none;">
-    <a href="#">Compartir en Twitter</a>
-    <a href="#">Compartir en Facebook</a>
-    <a href="#">Compartir en LinkedIn</a>
+    <button onclick="shareContent()"><span class="icon">➤</span></button>
   </div>
 
   <script>
-    document.getElementById('subscribeButton').addEventListener('click', () => {
-      alert('¡Gracias por suscribirte!');
-    });
-
     const books = document.querySelectorAll('.book');
     const positions = ['position-left', 'position-center', 'position-right', 'position-behind', 'position-behind'];
 
     function updatePositions(direction) {
-      if (direction === 'next') {
-        positions.unshift(positions.pop());
-      } else {
-        positions.push(positions.shift());
-      }
+      if (direction === 'next') positions.unshift(positions.pop());
+      else positions.push(positions.shift());
 
       books.forEach((book, index) => {
         book.className = `book ${positions[index]}`;
       });
     }
-
-    document.getElementById('purchaseButton').addEventListener('click', () => {
-      alert('¡Gracias por tu interés! Redirigiendo a la página de compra...');
-      window.location.href = 'pagina_compra.html';
-    });
 
     document.getElementById('nextBtn').addEventListener('click', () => updatePositions('next'));
     document.getElementById('prevBtn').addEventListener('click', () => updatePositions('prev'));
@@ -390,8 +290,8 @@
 
     books.forEach(book => {
       book.addEventListener('click', () => {
-        const flipbookSrc = book.getAttribute('data-flipbook');
-        iframe.src = flipbookSrc;
+        const src = book.getAttribute('data-flipbook');
+        iframe.src = src;
         modal.classList.add('active');
       });
     });
@@ -403,15 +303,13 @@
 
     function shareContent() {
       if (navigator.share) {
-        navigator
-          .share({
-            title: 'Título del contenido',
-            text: 'Descripción breve de lo que compartes.',
-            url: window.location.href,
-          })
-          .catch(console.error);
+        navigator.share({
+          title: 'Colección de libros',
+          text: 'Mira esta colección genial 📚',
+          url: window.location.href,
+        }).catch(console.error);
       } else {
-        document.getElementById('fallback-links').style.display = 'block';
+        alert('Tu navegador no soporta compartir directamente.');
       }
     }
   </script>
