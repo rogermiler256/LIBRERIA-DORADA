@@ -6,9 +6,9 @@
   <title>Flipbook con Transición</title>
 
   <style>
-    /* ==========================
-       ESTILOS BASE (ESCRITORIO)
-       ========================== */
+    /* ========================== */
+    /* ESTILOS BASE (ESCRITORIO) */
+    /* ========================== */
     body{
       margin:0;
       height:100vh;
@@ -32,7 +32,6 @@
       justify-content:center;
       align-items:center;
       margin-bottom: 50px;
-      /* No tocar: mantiene el comportamiento y posiciones del carrusel en escritorio */
     }
 
     .book{
@@ -78,13 +77,13 @@
       transform: translateY(-50%) scale(1.2);
     }
 
-    /* Botones en escritorio (posición absoluta original) */
     .button-container{
       display:flex;
       gap:20px;
       position:absolute;
-      right:600px;
-      bottom:100px;
+      bottom:-80px;
+      left:50%;
+      transform:translateX(-50%);
       z-index:5;
     }
 
@@ -94,12 +93,12 @@
       display:flex;
       justify-content:center;
       align-items:center;
-      background-color: rgba(0,0,0,0.452);
+      background-color: rgba(0,0,0,0.45);
       color:white;
       border-radius:50%;
       border:none;
       cursor:pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.466);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
       transition: all 0.3s ease;
     }
 
@@ -123,8 +122,6 @@
 
     .purchase-button{
       padding:15px 25px;
-      position:absolute;
-      left:210px;
       font-size:18px;
       background-color:#01e901;
       color:#fff;
@@ -138,8 +135,6 @@
 
     .subscribe-button{
       padding:15px 25px;
-      position:absolute;
-      right:-370px;
       font-size:18px;
       background-color:#ff5722;
       color:#fff;
@@ -186,31 +181,8 @@
     .side-share-button .icon{ font-size:20px; font-weight:bold; line-height:1; }
     .side-share-button .share-text{ margin-left:10px; font-size:16px; color:#fff; white-space:nowrap; }
 
-    .share-links{
-      position: fixed;
-      bottom: 10%;
-      right: 10%;
-      background:#f9f9f9;
-      padding:10px;
-      border-radius:8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .share-links a{
-      display:block;
-      margin:5px 0;
-      padding:8px 12px;
-      background-color:#007bff;
-      color:white;
-      text-decoration:none;
-      border-radius:5px;
-      font-size:14px;
-      text-align:center;
-    }
-    .share-links a:hover{ background-color:#0056b3; }
-
-    /* Modal: NO mostrar hasta abrir (evita "Not Found") */
     .modal{
-      display:none;           /* oculto por defecto */
+      display:none;
       position: fixed;
       inset: 0;
       background-color: rgba(0,0,0,0.8);
@@ -237,97 +209,68 @@
       cursor:pointer;
     }
 
-    /* ============================================
-       MEDIA QUERIES: SOLO CAMBIOS PARA MÓVILES/TAB
-       ============================================ */
-    @media (max-width: 1024px) {
-      /* en tablets reducimos un poco la escala del centro sin romper el layout */
-      .position-center { transform: translateX(0) scale(3.2); }
-    }
+    /* ========================== */
+    /*     MEDIA QUERIES         */
+    /* ========================== */
 
     @media (max-width: 768px) {
-      /* 1) Body y contenedor: permitir scroll vertical si hace falta */
       body{
-        justify-content:flex-start;
         overflow-y:auto;
+        justify-content:flex-start;
       }
-
-      /* 2) Baja el carrusel para que quede centrado visualmente en pantalla */
       .carousel-container{
         width:100%;
         height:auto;
-        margin-top: 90px;   /* <-- baja todo el carrusel */
-        margin-bottom: 10px;
+        margin-top:70px;
+        margin-bottom:40px;
       }
-
-      /* 3) Ajusta tamaño de libros sin cambiar clases ni transformaciones */
       .book{
-        width:140px;       /* tamaño más grande y proporcionado para móviles */
+        width:140px;
         height:210px;
       }
+      .position-left { transform: translateX(-120px) scale(0.9); }
+      .position-center { transform: translateX(0) scale(2.6); }
+      .position-right { transform: translateX(120px) scale(0.9); }
 
-      /* Mantener las transformaciones originales pero con valores más suaves en móvil */
-      .position-left { transform: translateX(-120px) scale(0.9); z-index:1; opacity:0.8; }
-      .position-center { transform: translateX(0) scale(2.6); z-index:2; opacity:1; }
-      .position-right { transform: translateX(120px) scale(0.9); z-index:1; opacity:0.8; }
-      .position-behind { transform: translateX(260px) scale(0); z-index:0; opacity:0; }
-
-      /* 4) Mover botones abajo y fuera del área de los libros */
+      /* 🔽 Botones bajan y se centran */
       .button-container{
-        position: static;          /* deja que fluyan debajo del carrusel */
-        margin-top: 16px;
-        display:flex;
-        gap:12px;
+        position:static;
+        flex-wrap:wrap;
         justify-content:center;
-        align-items:center;
-        z-index:50;
+        gap:12px;
+        margin-top:10px;
       }
 
-      /* flechas más pequeñas en móvil */
       .arrow-button{ width:44px; height:44px; }
-
-      /* Botones de acción adaptados: no absolutes para evitar overlap */
       .purchase-button, .subscribe-button{
-        position: static;
         font-size:15px;
         padding:10px 18px;
-        border-radius:10px;
       }
 
-      /* lateral compartir: fija abajo-derecha */
       .side-share-button{
-        position: fixed;
-        bottom: 18px;
-        right: 18px;
-        top: auto;
-        transform: none;
-        z-index: 60;
+        position:fixed;
+        bottom:18px;
+        right:18px;
+        top:auto;
+        transform:none;
       }
-      .side-share-button .share-text { display:none; }
+      .side-share-button .share-text{ display:none; }
 
-      /* precio más legible en móvil */
       .price-label{ font-size:11px; top:58%; }
-
-      /* Modal en móvil ocupa más espacio razonable */
-      .modal iframe{ width: 95%; height: 70%; }
+      .modal iframe{ width:95%; height:70%; }
     }
 
     @media (max-width: 420px) {
-      /* móviles pequeños: ligera reducción */
-      .book { width:125px; height:187px; }
+      .book { width:120px; height:180px; }
       .position-center { transform: translateX(0) scale(2.2); }
-      .position-left { transform: translateX(-100px) scale(0.85); }
-      .position-right { transform: translateX(100px) scale(0.85); }
-      .carousel-container { margin-top: 70px; }
-      .button-container { gap:8px; padding-bottom:12px; flex-wrap:wrap; }
-      .purchase-button, .subscribe-button { width: 46%; }
+      .button-container{ gap:8px; flex-wrap:wrap; }
+      .purchase-button, .subscribe-button{ width:46%; }
     }
-
   </style>
 </head>
+
 <body>
 
-  <!-- CARRUSEL -->
   <div class="carousel-container">
     <div class="book position-left" data-flipbook="flipbook/la experiencia interna.html">
       <img src="imagenes/libro1.png" alt="Libro 1" />
@@ -355,102 +298,55 @@
     </div>
   </div>
 
-  <!-- BOTONES (ahora fluyen debajo en móvil) -->
+  <!-- Botones centrados debajo del carrusel -->
   <div class="button-container">
-    <button id="prevBtn" class="arrow-button" aria-label="Anterior"></button>
-    <button id="nextBtn" class="arrow-button" aria-label="Siguiente"></button>
+    <button id="prevBtn" class="arrow-button"></button>
+    <button id="nextBtn" class="arrow-button"></button>
     <button id="purchaseButton" class="purchase-button">Comprar</button>
     <button id="subscribeButton" class="subscribe-button">Suscribirse</button>
   </div>
 
-  <!-- MODAL (oculto por defecto) -->
+  <!-- Modal -->
   <div class="modal" id="modal">
-    <iframe src="" title="Flipbook viewer"></iframe>
+    <iframe src=""></iframe>
     <button class="close-button" id="closeModal">&times;</button>
   </div>
 
-  <!-- BOTÓN COMPARTIR -->
+  <!-- Botón compartir -->
   <div class="side-share-button">
     <button onclick="shareContent()"><span class="icon">➤</span></button>
     <span class="share-text">Compartir</span>
   </div>
 
-  <!-- LINKS FALLBACK (ocultos por JS hasta que se necesiten) -->
-  <div id="fallback-links" class="share-links" style="display:none;">
-    <a href="#" target="_blank" rel="noopener">Compartir en Twitter</a>
-    <a href="#" target="_blank" rel="noopener">Compartir en Facebook</a>
-    <a href="#" target="_blank" rel="noopener">Compartir en LinkedIn</a>
-  </div>
-
   <script>
-    // ---------- comportamiento carrusel (igual que tu original) ----------
     const books = document.querySelectorAll('.book');
     const positions = ['position-left','position-center','position-right','position-behind','position-behind'];
 
-    function updatePositions(direction){
-      if(direction === 'next'){
-        positions.unshift(positions.pop());
-      } else {
-        positions.push(positions.shift());
-      }
-      books.forEach((book,index) => book.className = `book ${positions[index]}`);
+    function updatePositions(dir){
+      if(dir==='next'){ positions.unshift(positions.pop()); }
+      else{ positions.push(positions.shift()); }
+      books.forEach((b,i)=>b.className=`book ${positions[i]}`);
     }
 
-    document.getElementById('nextBtn').addEventListener('click', ()=> updatePositions('next'));
-    document.getElementById('prevBtn').addEventListener('click', ()=> updatePositions('prev'));
+    document.getElementById('nextBtn').onclick=()=>updatePositions('next');
+    document.getElementById('prevBtn').onclick=()=>updatePositions('prev');
 
-    // ---------- compra / suscripción ----------
-    document.getElementById('purchaseButton').addEventListener('click', ()=>{
-      alert('¡Gracias por tu interés! Redirigiendo a la página de compra...');
-      window.location.href = 'pagina_compra.html';
+    const modal=document.getElementById('modal');
+    const iframe=modal.querySelector('iframe');
+    const close=document.getElementById('closeModal');
+    books.forEach(b=>{
+      b.onclick=()=>{
+        const src=b.dataset.flipbook;
+        if(src){ iframe.src=src; modal.classList.add('active'); }
+      };
     });
+    close.onclick=()=>{ modal.classList.remove('active'); iframe.src=''; };
+    document.onkeydown=e=>{ if(e.key==='Escape'){ modal.classList.remove('active'); iframe.src=''; } };
 
-    document.getElementById('subscribeButton').addEventListener('click', ()=> {
-      alert('¡Gracias por suscribirte!');
-    });
-
-    // ---------- modal (oculto por defecto, se abre solo al click) ----------
-    const modal = document.getElementById('modal');
-    const iframe = modal.querySelector('iframe');
-    const closeModal = document.getElementById('closeModal');
-
-    books.forEach(book => {
-      book.addEventListener('click', () => {
-        const src = book.getAttribute('data-flipbook');
-        if(src){
-          iframe.src = src;
-          modal.classList.add('active');
-          // evitar que el iframe muestre "Not Found" si el recurso no existe:
-          // (se carga solo cuando el usuario hace click; si no existe el archivo, el modal seguirá oculto)
-        }
-      });
-    });
-
-    closeModal.addEventListener('click', ()=>{
-      modal.classList.remove('active');
-      iframe.src = '';
-    });
-
-    // Cerrar modal con ESC
-    document.addEventListener('keydown', e => {
-      if(e.key === 'Escape' && modal.classList.contains('active')){
-        modal.classList.remove('active');
-        iframe.src = '';
-      }
-    });
-
-    // ---------- compartir (Web Share API) ----------
     function shareContent(){
       if(navigator.share){
-        navigator.share({
-          title: 'Colección de libros',
-          text: 'Mira esta colección genial.',
-          url: window.location.href
-        }).catch(console.error);
-      } else {
-        // mostrar links de fallback
-        document.getElementById('fallback-links').style.display = 'block';
-      }
+        navigator.share({title:'Colección de libros',text:'Mira esta colección genial.',url:location.href});
+      } else alert("Tu navegador no soporta compartir");
     }
   </script>
 </body>
